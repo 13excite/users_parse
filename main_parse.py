@@ -1,9 +1,10 @@
 from bs4 import BeautifulSoup
 import re
 from auth import get_url
+import json
 
-URL = ''
-my_cookie = ''
+URL = 'http://liga-znakomstv.ru/public/profile.php?profile=4798'
+my_cookie = 'ddd'
 
 def re_parse(tag_list, re_pattern):
     finish_list = []
@@ -13,18 +14,15 @@ def re_parse(tag_list, re_pattern):
             finish_list.append(elm)
     return finish_list
 
-def first_parse(html_doc):
-    """
-    find all 'a' tags in html doc
-     and return tag's list
-    """
-    soup = BeautifulSoup(html_doc, 'html.parser')
-    finish_dict = dict()
-    a_tag_list = []
-
-    for tag in soup.find_all('a'):
-        a_tag_list.append(tag.get('href'))
-    return finish_dict
+def first_parse(html):
+    soup = BeautifulSoup(html, 'html.parser')
+    tag_list = []
+    for tag in soup.find_all('dd'):
+        try:
+            tag_list.append(tag)
+        except:
+            tag_list.append(tag)
+    return tag_list
 
 def get_contacts(html_tags):
     pass
@@ -34,5 +32,6 @@ def generic_html_table(name, contacts, age, sex):
 
 
 if __name__ == '__main__':
-    html_doc = get_url(URL, my_cookie)
+    html_doc = first_parse(get_url(URL, my_cookie))
+    print html_doc
 

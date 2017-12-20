@@ -1,6 +1,8 @@
 import requests
+from fake_useragent import UserAgent
 
 def get_url(url, cookie):
+  #  ua = UserAgent()
     headers = {
         'Accept-Encoding': 'gzip, deflate',
         'Accept-Language': 'ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4',
