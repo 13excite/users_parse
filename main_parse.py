@@ -24,9 +24,13 @@ def first_parse(html_doc):
 
     for tag in soup.find_all('a'):
         a_tag_list.append(tag.get('href'))
-
-
     return finish_dict
+
+def get_contacts(html_tags):
+    pass
+
+def generic_html_table(name, contacts, age, sex):
+    pass
 
 
 if __name__ == '__main__':
