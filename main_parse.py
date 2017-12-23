@@ -1,10 +1,11 @@
 from bs4 import BeautifulSoup
 import re
 from auth import get_url
+
 import json
 
 URL = 'http://liga-znakomstv.ru/public/profile.php?profile=4805'
-my_cookie = 'fisdjfdjf'
+my_cookie = 'sss'
 
 def re_parse(tag_list, re_pattern):
     finish_list = []
@@ -32,8 +33,16 @@ def get_contacts(html):
         my_link.append(link.get('href'))
     return my_link
 
-def a_tags_parser(list_urls):
-    pass
+def create_html_table(user_list):
+    name = user_list[0]
+    age = user_list[1]
+    birth_date = user_list[2]
+    country = user_list[3]
+    town = user_list[4]
+
+    str_table = "<td>"+name+"</td><td>"+age+"</td><td>"+birth_date+"</td><td>"+country+"</td><td>"+town+"</td>"
+    return  str_table
+
 
 
 if __name__ == '__main__':
@@ -41,7 +50,8 @@ if __name__ == '__main__':
 
     user_info_tags = tags_getter(html_doc, 'dd')
     contacs = get_contacts(html_doc)
-    print contacs
-    for elm in user_info_tags:
-        print "<p>%s</p>" % elm
+    #print contacs
+    #for elm in user_info_tags:
+     #   print "<p>%s</p>" % elm
+    print create_html_table(user_info_tags)
 
