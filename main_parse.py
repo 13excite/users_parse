@@ -1,11 +1,11 @@
 from bs4 import BeautifulSoup
 import re
 from auth import get_url
-
 import json
 
 URL = 'http://liga-znakomstv.ru/public/profile.php?profile=4805'
-my_cookie = 'sss'
+HTML_FILE = './test1.html'
+my_cookie = 'fff'
 
 def re_parse(tag_list, re_pattern):
     finish_list = []
@@ -33,6 +33,15 @@ def get_contacts(html):
         my_link.append(link.get('href'))
     return my_link
 
+def parsing_cuntacts_urls(lst):
+    link_pattern = re.compile('(https:\/\/)?(www\.)?(vk\.com\/)(id\d|[a-zA-z][a-zA-Z0-9_.]{2,})')
+    empty_lst = []
+    for item in lst:
+        if link_pattern.findall(item):
+            empty_lst.append(item)
+    return empty_lst
+
+
 def create_html_table(user_list):
     name = user_list[0]
     age = user_list[1]
@@ -42,6 +51,17 @@ def create_html_table(user_list):
 
     str_table = "<td>"+name+"</td><td>"+age+"</td><td>"+birth_date+"</td><td>"+country+"</td><td>"+town+"</td>"
     return  str_table
+
+def file_writer(user_info_tags_str, contacts_list):
+    contacts_len = len(contacts_list)
+    if contacts_len < 2:
+        full_string = user_info_tags + "<td>"+contacts_list[0]+"</td>"
+    else:
+        pass
+    with open(HTML_FILE, 'a') as f:
+        pass
+        # somebody write to file
+
 
 
 
