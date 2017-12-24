@@ -3,9 +3,9 @@ import re
 from auth import get_url
 import json
 
-URL = 'http://liga-znakomstv.ru/public/profile.php?profile=4805'
+URL = 'http://liga-znakomstv.ru/public/profile.php?profile='
 HTML_FILE = './test1.html'
-my_cookie = 'dd'
+my_cookie = 'ss'
 
 def re_parse(tag_list, re_pattern):
     finish_list = []
@@ -34,7 +34,7 @@ def get_contacts(html):
     return my_link
 
 def parsing_cuntacts_urls(lst):
-    link_pattern = re.compile('(https:\/\/)?(www\.)?(vk\.com\/)(id\d|[a-zA-z][a-zA-Z0-9_.]{2,})|(t\.me)|(facebook)')
+    link_pattern = re.compile('(https:\/\/)?(www\.)?(vk\.com\/)(id\d|[a-zA-z][a-zA-Z0-9_.]{2,})|(t\.me)|(facebook)|(id\d)')
     fake_link = re.compile('liga_znakomstv')
     empty_lst = []
     for item in lst:
@@ -58,26 +58,28 @@ def file_writer(user_info_str, contacts_list):
     if len(contacts_list) > 1:
         contacts_string = ",".join(contacts_list)
     else:
-        contacts_string = contacts_list[0]
+        try:
+            contacts_string = contacts_list[0]
+        except:
+            contacts_string = 'Not found'
 
     full_string = user_info_str + "<td>" + contacts_string + "</td>"
-    #with open(HTML_FILE, 'a') as f:
+    with open(HTML_FILE, 'a') as f:
+        f.write(full_string.encode('utf8') + "\n")
       #  pass
         # somebody write to file
-    return full_string
+    #return full_string
 
 
 if __name__ == '__main__':
-    html_doc = get_url(URL, my_cookie)
+    profile_start = 4518
+    profile_finish = 4519
 
-    user_info_tags = tags_getter(html_doc, 'dd')
-    contacs = get_contacts(html_doc)
+    for user_id in range(profile_start,profile_finish):
+        valid_url = URL + str(user_id)
+        html_doc = get_url(valid_url, my_cookie)
+        user_info_tags = tags_getter(html_doc, 'dd')
+        contacs = get_contacts(html_doc)
 
-    #print type(format(parsing_cuntacts_urls(contacs)[0]))
-    #print contacs
-    #for elm in user_info_tags:
-     #   print "<p>%s</p>" % elm
-    #print create_html_table(user_info_tags)
-
-    print file_writer(create_html_table(user_info_tags), parsing_cuntacts_urls(contacs))
+        file_writer(create_html_table(user_info_tags), parsing_cuntacts_urls(contacs))
 
