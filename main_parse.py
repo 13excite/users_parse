@@ -5,7 +5,7 @@ import json
 
 URL = 'http://liga-znakomstv.ru/public/profile.php?profile=4805'
 HTML_FILE = './test1.html'
-my_cookie = 'fff'
+my_cookie = 'dd'
 
 def re_parse(tag_list, re_pattern):
     finish_list = []
@@ -34,11 +34,13 @@ def get_contacts(html):
     return my_link
 
 def parsing_cuntacts_urls(lst):
-    link_pattern = re.compile('(https:\/\/)?(www\.)?(vk\.com\/)(id\d|[a-zA-z][a-zA-Z0-9_.]{2,})')
+    link_pattern = re.compile('(https:\/\/)?(www\.)?(vk\.com\/)(id\d|[a-zA-z][a-zA-Z0-9_.]{2,})|(t\.me)|(facebook)')
+    fake_link = re.compile('liga_znakomstv')
     empty_lst = []
     for item in lst:
-        if link_pattern.findall(item):
-            empty_lst.append(item)
+        if item:
+            if link_pattern.findall(item) and not fake_link.findall(item):
+                empty_lst.append(item)
     return empty_lst
 
 
@@ -53,14 +55,24 @@ def create_html_table(user_list):
     return  str_table
 
 def file_writer(user_info_tags_str, contacts_list):
-    contacts_len = len(contacts_list)
-    if contacts_len < 2:
-        full_string = user_info_tags + "<td>"+contacts_list[0]+"</td>"
+    if len(contacts_list) > 1:
+        contacts_string = ",".join(contacts_list)
+        print 'AAAA'
+        print contacts_string
+        print type(contacts_string)
     else:
-        pass
-    with open(HTML_FILE, 'a') as f:
-        pass
+        contacts_string = contacts_list[0]
+        print 'BBBBB'
+        print contacts_string
+        print type(contacts_string)
+
+    print user_info_tags_str
+    print type(user_info_tags_str)
+    #full_string = user_info_tags.decode('utf8') + "<td>".decode('utf8') + contacts_string + "</td>".decode('utf8')
+    #with open(HTML_FILE, 'a') as f:
+      #  pass
         # somebody write to file
+    #return full_string
 
 
 
@@ -70,8 +82,12 @@ if __name__ == '__main__':
 
     user_info_tags = tags_getter(html_doc, 'dd')
     contacs = get_contacts(html_doc)
+
+    #print type(format(parsing_cuntacts_urls(contacs)[0]))
     #print contacs
     #for elm in user_info_tags:
      #   print "<p>%s</p>" % elm
-    print create_html_table(user_info_tags)
+    #print create_html_table(user_info_tags)
+
+    print file_writer(create_html_table(user_info_tags), parsing_cuntacts_urls(contacs))
 
