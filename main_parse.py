@@ -5,7 +5,7 @@ import json
 
 URL = 'http://liga-znakomstv.ru/public/profile.php?profile='
 HTML_FILE = './test1.html'
-my_cookie = 'ss'
+my_cookie = 'ddd'
 
 def re_parse(tag_list, re_pattern):
     finish_list = []
@@ -34,7 +34,7 @@ def get_contacts(html):
     return my_link
 
 def parsing_cuntacts_urls(lst):
-    link_pattern = re.compile('(https:\/\/)?(www\.)?(vk\.com\/)(id\d|[a-zA-z][a-zA-Z0-9_.]{2,})|(t\.me)|(facebook)|(id\d)')
+    link_pattern = re.compile('(https:\/\/)?(www\.)?(vk\.com\/)(id\d|[a-zA-z][a-zA-Z0-9_.]{2,})|(t\.me)|(facebook)|(id\d)(@\w\w)')
     fake_link = re.compile('liga_znakomstv')
     empty_lst = []
     for item in lst:
@@ -45,16 +45,24 @@ def parsing_cuntacts_urls(lst):
 
 
 def create_html_table(user_list):
-    name = user_list[0]
-    age = user_list[1]
-    birth_date = user_list[2]
-    country = user_list[3]
-    town = user_list[4]
+    try:
+        name = user_list[0]
+        age = user_list[1]
+        birth_date = user_list[2]
+        country = user_list[3]
+        town = user_list[4]
+    except:
+        name = 'Empty'
+        age = 'Empty'
+        birth_date = 'Empty'
+        country = 'Empty'
+        town = 'Empty'
 
     str_table = "<td>"+name+"</td><td>"+age+"</td><td>"+birth_date+"</td><td>"+country+"</td><td>"+town+"</td>"
     return  str_table
 
-def file_writer(user_info_str, contacts_list):
+def file_writer(user_info_str, contacts_list, user_id):
+    user_id = str(user_id)
     if len(contacts_list) > 1:
         contacts_string = ",".join(contacts_list)
     else:
@@ -63,7 +71,7 @@ def file_writer(user_info_str, contacts_list):
         except:
             contacts_string = 'Not found'
 
-    full_string = user_info_str + "<td>" + contacts_string + "</td>"
+    full_string = "<tr>" + user_info_str + "<td>" + contacts_string + "</td><td>" + user_id +"</td></tr>"
     with open(HTML_FILE, 'a') as f:
         f.write(full_string.encode('utf8') + "\n")
       #  pass
@@ -72,8 +80,9 @@ def file_writer(user_info_str, contacts_list):
 
 
 if __name__ == '__main__':
-    profile_start = 4518
-    profile_finish = 4519
+    profile_start = 3000
+    profile_finish = 4827
+
 
     for user_id in range(profile_start,profile_finish):
         valid_url = URL + str(user_id)
@@ -81,5 +90,5 @@ if __name__ == '__main__':
         user_info_tags = tags_getter(html_doc, 'dd')
         contacs = get_contacts(html_doc)
 
-        file_writer(create_html_table(user_info_tags), parsing_cuntacts_urls(contacs))
+        file_writer(create_html_table(user_info_tags), parsing_cuntacts_urls(contacs), user_id)
 
