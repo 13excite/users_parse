@@ -15,7 +15,10 @@ def get_url(url, cookie):
         'Connection': 'keep-alive',
         'Cache-Control': 'max-age=0'
           }
-    r = requests.get(url, headers=headers)
+    try:
+        r = requests.get(url, headers=headers)
+    except:
+        print 'request failed'
     return r.text
 
 
