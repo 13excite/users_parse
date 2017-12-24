@@ -54,27 +54,17 @@ def create_html_table(user_list):
     str_table = "<td>"+name+"</td><td>"+age+"</td><td>"+birth_date+"</td><td>"+country+"</td><td>"+town+"</td>"
     return  str_table
 
-def file_writer(user_info_tags_str, contacts_list):
+def file_writer(user_info_str, contacts_list):
     if len(contacts_list) > 1:
         contacts_string = ",".join(contacts_list)
-        print 'AAAA'
-        print contacts_string
-        print type(contacts_string)
     else:
         contacts_string = contacts_list[0]
-        print 'BBBBB'
-        print contacts_string
-        print type(contacts_string)
 
-    print user_info_tags_str
-    print type(user_info_tags_str)
-    #full_string = user_info_tags.decode('utf8') + "<td>".decode('utf8') + contacts_string + "</td>".decode('utf8')
+    full_string = user_info_str + "<td>" + contacts_string + "</td>"
     #with open(HTML_FILE, 'a') as f:
       #  pass
         # somebody write to file
-    #return full_string
-
-
+    return full_string
 
 
 if __name__ == '__main__':
