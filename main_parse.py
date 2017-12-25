@@ -5,7 +5,7 @@ import json
 
 URL = 'http://liga-znakomstv.ru/public/profile.php?profile='
 HTML_FILE = './test1.html'
-my_cookie = 'ddd'
+my_cookie = 'dds'
 
 def exception_index_list(list, index):
     try:
@@ -51,18 +51,11 @@ def parsing_cuntacts_urls(lst):
 
 
 def create_html_table(user_list):
-    try:
-        name = user_list[0]
-        age = user_list[1]
-        birth_date = user_list[2]
-        country = user_list[3]
-        town = user_list[4]
-    except:
-        name = 'Empty'
-        age = 'Empty'
-        birth_date = 'Empty'
-        country = 'Empty'
-        town = 'Empty'
+    name = exception_index_list(user_list, 0)
+    age = exception_index_list(user_list, 1)
+    birth_date = exception_index_list(user_list, 2)
+    country = exception_index_list(user_list, 3)
+    town = exception_index_list(user_list, 4)
 
     str_table = "<td>"+name+"</td><td>"+age+"</td><td>"+birth_date+"</td><td>"+country+"</td><td>"+town+"</td>"
     return  str_table
@@ -86,8 +79,8 @@ def file_writer(user_info_str, contacts_list, user_id):
 
 
 if __name__ == '__main__':
-    profile_start = 3000
-    profile_finish = 4827
+    profile_start = 3500
+    profile_finish = 4834
 
 
     for user_id in range(profile_start,profile_finish):
