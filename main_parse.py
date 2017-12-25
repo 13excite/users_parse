@@ -7,6 +7,12 @@ URL = 'http://liga-znakomstv.ru/public/profile.php?profile='
 HTML_FILE = './test1.html'
 my_cookie = 'ddd'
 
+def exception_index_list(list, index):
+    try:
+        return list[index]
+    except:
+        return "Empty"
+
 def re_parse(tag_list, re_pattern):
     finish_list = []
     p = re.compile(re_pattern)
