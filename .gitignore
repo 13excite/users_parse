@@ -1,2 +1,7 @@
-.idea/*
-.idea/vcs.xml
+.DS_Store
+.idea
+__pycache__
+*.log
+*.pyc
+*.ini
+env
