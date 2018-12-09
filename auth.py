@@ -1,5 +1,4 @@
 import requests
-from fake_useragent import UserAgent
 
 def get_url(url, cookie):
   #  ua = UserAgent()
